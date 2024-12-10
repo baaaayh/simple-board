@@ -15,7 +15,7 @@ export default function BoardTable() {
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>TITLE</th>
+                        <th>Title</th>
                         <th>Writer</th>
                         <th>Date</th>
                     </tr>

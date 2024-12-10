@@ -1,6 +1,6 @@
 .header {
     position: fixed;
-    max-width: 1280px;
+    max-width: 1024px;
     width: 100%;
     margin: 0 auto;
     padding: 20px 0;
@@ -9,6 +9,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 0 12px;
     }
     &__logo {
         display: inline-block;
