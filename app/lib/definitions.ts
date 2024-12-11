@@ -9,3 +9,26 @@ export interface User {
 export interface SessionProps {
     userInfo: Session | null;
 }
+
+export interface EditorContentsType {
+    projectName: string;
+    contents: string;
+    writer: string | null | undefined;
+    title: string;
+    date: number;
+}
+
+export interface boardDataType {
+    id: string;
+    title: string;
+    date: number;
+    writer: string;
+    contents: string;
+}
+
+export interface contentType {
+    title: string;
+    writer: string;
+    date: string;
+    contents: string;
+}

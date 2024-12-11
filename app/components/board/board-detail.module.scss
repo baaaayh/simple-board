@@ -1,0 +1,21 @@
+.detail {
+    &__title {
+        margin-bottom: 50px;
+        h1 {
+            font-size: 34px;
+            line-height: 1.32;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    }
+    &__info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 10px;
+        span {
+            color: #6a6a6a;
+        }
+    }
+}

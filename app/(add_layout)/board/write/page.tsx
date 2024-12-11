@@ -1,11 +1,13 @@
-import Link from "next/link";
 import EditorWithNoSSR from "@/app/components/board/editor";
+import { auth } from "@/auth";
 
-export default function BoardPage() {
+export default async function BoardPage() {
+    const userInfo = await auth();
+
     return (
         <>
             <div className="editor">
-                <EditorWithNoSSR />
+                <EditorWithNoSSR userInfo={userInfo} />
             </div>
         </>
     );

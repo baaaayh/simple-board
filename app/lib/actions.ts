@@ -1,5 +1,5 @@
 "use server";
-
+import pool from "@/app/lib/db";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 
@@ -20,4 +20,9 @@ export async function authenticate(
         }
         throw error;
     }
+}
+
+export async function getBoardList() {
+    const result = await pool.query("SELECT * FROM editor_contents");
+    return result.rows;
 }

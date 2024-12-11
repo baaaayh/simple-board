@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { postData, saveImage } from "@/app/utils/api";
+import { SessionProps, EditorContentsType } from "@/app/lib/definitions";
 import "@toast-ui/editor/dist/toastui-editor.css";
 
 const ToastEditor = dynamic(
@@ -10,33 +13,60 @@ const ToastEditor = dynamic(
     { ssr: false }
 );
 
-const ToastEditorComponent = () => {
-    const editorRef = useRef<any>(null); // Ref를 any로 설정하여 getInstance를 안전하게 호출
+export default function ToastEditorComponent({ userInfo }: SessionProps) {
+    const [postTitle, setPostTitle] = useState("");
+    const router = useRouter();
+    const editorRef = useRef<any>(null);
 
     const handleSave = useCallback(async () => {
         if (editorRef.current) {
-            const instance = editorRef.current.getInstance(); // getInstance 호출
-            const content = instance?.getHTML(); // HTML로 콘텐츠 가져오기
-            console.log(content); // 콘솔에 내용 출력
+            const instance = editorRef.current.getInstance();
+            const contents = instance?.getHTML();
+            const writer = userInfo?.user?.name;
+            const title = postTitle;
+            const date = new Date().getTime();
+
+            const content: EditorContentsType = {
+                projectName: "simple_board",
+                contents,
+                writer,
+                title,
+                date,
+            };
+
+            try {
+                const response = await postData(
+                    "/api/saveEditorContent",
+                    content
+                );
+
+                if (response?.ok) {
+                    router.push("/board");
+                }
+            } catch (error) {
+                console.log(error);
+            }
         }
-    }, []);
+    }, [postTitle]);
 
     const handleImageUpload = useCallback(
         async (file: File, callback: Function) => {
-            const formData = new FormData();
-            formData.append("file", file);
+            try {
+                const response = await saveImage(file, callback);
+                const data = await response?.json();
+                const imageUrl = data?.filePath;
 
-            fetch("/upload", {
-                method: "POST",
-                body: formData,
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    callback(data.url);
-                })
-                .catch((error) => {
-                    console.error("이미지 업로드 실패:", error);
-                });
+                callback(imageUrl, file.name);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        []
+    );
+
+    const handleChange = useCallback(
+        (e: React.ChangeEvent<HTMLInputElement>): void => {
+            setPostTitle(e.target.value);
         },
         []
     );
@@ -44,7 +74,12 @@ const ToastEditorComponent = () => {
     return (
         <>
             <div className="write-title">
-                <input type="text" placeholder="제목을 입력하세요." />
+                <input
+                    type="text"
+                    value={postTitle}
+                    placeholder="제목을 입력하세요."
+                    onChange={handleChange}
+                />
             </div>
             <ToastEditor
                 ref={editorRef}
@@ -71,6 +106,4 @@ const ToastEditorComponent = () => {
             </div>
         </>
     );
-};
-
-export default ToastEditorComponent;
+}
