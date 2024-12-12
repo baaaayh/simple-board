@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useCallback } from "react";
 import styles from "@/app/components/board/board-detail.module.scss";
-import { getDetail } from "@/app/utils/api";
+import { getDetail } from "@/app/lib/actions";
 import { contentType } from "@/app/lib/definitions";
 
 export default function BoardDetail({ id }: { id: string }) {
@@ -9,8 +9,8 @@ export default function BoardDetail({ id }: { id: string }) {
 
     const getCotnent = useCallback(async (id: string) => {
         try {
-            const result = await getDetail(id);
-            setContent(result.data);
+            const response = await getDetail(id);
+            setContent(response);
         } catch (error) {
             console.log(error);
         }

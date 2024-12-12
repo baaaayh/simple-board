@@ -2,7 +2,7 @@
 import { useActionState } from "react";
 import { authenticate } from "@/app/lib/actions";
 
-import styles from "@/app/components/login-form.module.scss";
+import styles from "@/app/components/login/login-form.module.scss";
 
 export default function LoginForm() {
     const [error, formAction] = useActionState(authenticate, undefined);

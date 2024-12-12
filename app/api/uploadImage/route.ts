@@ -1,27 +1,22 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
+    const formData = await req.formData();
+    const file = formData.get("file");
+    const projectName = formData.get("projectName");
+    const externalServerUrl = process.env.IMAGE_SERVER_URL;
+
+    if (!file || !projectName || !externalServerUrl) {
+        return NextResponse.json(
+            {
+                success: false,
+                message: "필수 데이터가 누락되었습니다.",
+            },
+            { status: 400 }
+        );
+    }
+
     try {
-        const formData = await req.formData();
-
-        const file = formData.get("file");
-        const projectName = formData.get("projectName");
-
-        if (!file || !projectName) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    message: "파일 또는 프로젝트명이 누락되었습니다.",
-                },
-                { status: 400 }
-            );
-        }
-
-        const externalServerUrl = process.env.IMAGE_SERVER_URL;
-        if (!externalServerUrl) {
-            throw new Error("IMAGE_SERVER_URL is not defined");
-        }
-
         const externalFormData = new FormData();
         externalFormData.append("projectName", projectName);
         externalFormData.append("file", file);
@@ -31,13 +26,11 @@ export async function POST(req: NextRequest) {
             body: externalFormData,
         });
 
-        if (!response.ok) {
-            throw new Error("외부 서버로의 요청이 실패했습니다.");
-        }
-
         const responseBody = await response.json();
 
-        console.log(responseBody);
+        if (!response.ok) {
+            throw new Error(responseBody.message || "외부 서버 요청 실패");
+        }
 
         return NextResponse.json({
             success: true,
@@ -45,9 +38,12 @@ export async function POST(req: NextRequest) {
             filePath: `${externalServerUrl}${responseBody.filePath}`,
         });
     } catch (error) {
-        console.error("서버 오류:", error);
         return NextResponse.json(
-            { success: false, message: "이미지 저장 실패" },
+            {
+                success: false,
+                message:
+                    error instanceof Error ? error.message : "이미지 저장 실패",
+            },
             { status: 500 }
         );
     }

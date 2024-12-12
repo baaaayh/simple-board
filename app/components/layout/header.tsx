@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { signOut } from "@/auth";
 import { SessionProps } from "@/app/lib/definitions";
-import styles from "@/app/components/header.module.scss";
+import styles from "@/app/components/layout/header.module.scss";
 
 export default function Header({ userInfo }: SessionProps) {
     return (

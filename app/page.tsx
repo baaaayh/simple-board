@@ -1,6 +1,6 @@
 "use client";
 import styles from "./page.module.scss";
-import LoginForm from "@/app/components/login-form";
+import LoginForm from "@/app/components/login/login-form";
 
 export default function Home() {
     return (

@@ -13,7 +13,13 @@ const ToastEditor = dynamic(
     { ssr: false }
 );
 
-export default function ToastEditorComponent({ userInfo }: SessionProps) {
+export default function ToastEditorComponent({
+    userInfo,
+    currentPage,
+}: {
+    userInfo: SessionProps;
+    currentPage: number;
+}) {
     const [postTitle, setPostTitle] = useState("");
     const router = useRouter();
     const editorRef = useRef<any>(null);
@@ -41,7 +47,7 @@ export default function ToastEditorComponent({ userInfo }: SessionProps) {
                 );
 
                 if (response?.ok) {
-                    router.push("/board");
+                    router.push(`/board/page/${currentPage}`);
                 }
             } catch (error) {
                 console.log(error);
@@ -84,9 +90,9 @@ export default function ToastEditorComponent({ userInfo }: SessionProps) {
             <ToastEditor
                 ref={editorRef}
                 initialValue="내용을 입력하세요."
-                previewStyle="vertical" // 미리보기 스타일 ('tab', 'vertical')
+                previewStyle="vertical"
                 height="600px"
-                initialEditType="wysiwyg" // 'markdown' 또는 'wysiwyg'
+                initialEditType="wysiwyg"
                 useCommandShortcut={true}
                 hooks={{
                     addImageBlobHook: handleImageUpload,

@@ -7,7 +7,11 @@ export interface User {
 }
 
 export interface SessionProps {
-    userInfo: Session | null;
+    user: {
+        name: string;
+        email?: string;
+        [key: string]: any;
+    } | null;
 }
 
 export interface EditorContentsType {

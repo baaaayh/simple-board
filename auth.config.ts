@@ -14,7 +14,7 @@ export const authConfig = {
                 if (isLoggedIn) return true;
                 return false;
             } else if (isLoggedIn) {
-                return NextResponse.redirect(new URL("/board", nextUrl));
+                return NextResponse.redirect(new URL("/board/page/1", nextUrl));
             }
             return true;
         },

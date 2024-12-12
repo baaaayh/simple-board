@@ -5,11 +5,19 @@ import { getBoardList } from "@/app/lib/actions";
 import { boardDataType } from "@/app/lib/definitions";
 import styles from "@/app/components/board/board-table.module.scss";
 
-export default function BoardTable() {
+export default function BoardTable({
+    itemsPerPage,
+    currentPage,
+    totalPost,
+}: {
+    itemsPerPage: number;
+    currentPage: number;
+    totalPost: number;
+}) {
     const [items, setItems] = useState<boardDataType[]>([]);
 
     const getBoardData = useCallback(async () => {
-        const boardList = await getBoardList();
+        const boardList = await getBoardList(itemsPerPage, currentPage);
         setItems(boardList);
     }, []);
 
@@ -45,7 +53,7 @@ export default function BoardTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    {[...items].reverse().map((item, index) => {
+                    {[...items].map((item, index) => {
                         const date = new Date(Number(item.date));
 
                         const year = date.getFullYear();
@@ -57,9 +65,18 @@ export default function BoardTable() {
 
                         return (
                             <tr key={`${index}-${item.id}`}>
-                                <td>{items.length - index}</td>
+                                <td>
+                                    {totalPost -
+                                        (itemsPerPage * (currentPage - 1) +
+                                            index)}
+                                </td>
                                 <td className={styles["table__title"]}>
-                                    <Link href={`/board/${item.id}`}>
+                                    <Link
+                                        href={{
+                                            pathname: `/board/detail/${item.id}`,
+                                            query: { currentPage: currentPage },
+                                        }}
+                                    >
                                         {item.title}
                                     </Link>
                                 </td>
