@@ -36,7 +36,7 @@ export async function getBoardList(total: number, page: number) {
     return result.rows;
 }
 
-export async function getDetail(id: number | null) {
+export async function getDetail(id: string | null) {
     try {
         if (!id) {
             throw new Error("Invalid ID");
