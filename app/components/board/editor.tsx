@@ -10,7 +10,7 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 
 const ToastEditor = dynamic(
     () => import("@toast-ui/react-editor").then((mod) => mod.Editor),
-    { ssr: false }
+    { ssr: true }
 );
 
 export default function ToastEditorComponent({
@@ -32,6 +32,11 @@ export default function ToastEditorComponent({
             const title = postTitle;
             const date = new Date().getTime();
 
+            if (title === "") {
+                alert("제목을 입력해주세요.");
+                return;
+            }
+
             const content: EditorContentsType = {
                 projectName: "simple_board",
                 contents,
@@ -47,7 +52,7 @@ export default function ToastEditorComponent({
                 );
 
                 if (response?.ok) {
-                    router.push(`/board/page/${currentPage}`);
+                    router.push(`/board/page/${1}`);
                 }
             } catch (error) {
                 console.log(error);
@@ -99,7 +104,10 @@ export default function ToastEditorComponent({
                 }}
             />
             <div className="button-wrap">
-                <Link href="/board" className="btn btn-round btn-round--grey">
+                <Link
+                    href={`/board/page/${currentPage}`}
+                    className="btn btn-round btn-round--grey"
+                >
                     <span>LIST</span>
                 </Link>
                 <button

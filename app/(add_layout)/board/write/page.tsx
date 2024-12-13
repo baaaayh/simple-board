@@ -7,6 +7,7 @@ export default async function BoardPage({
     searchParams: { currentPage: string };
 }) {
     const userInfo = await auth();
+    const data = await searchParams;
     const currentPage = Number(searchParams.currentPage) || 1;
 
     return (

@@ -1,11 +1,9 @@
-"use client";
-import { useEffect, useState, useCallback } from "react";
+// "use client";
 import Link from "next/link";
 import { getBoardList } from "@/app/lib/actions";
-import { boardDataType } from "@/app/lib/definitions";
 import styles from "@/app/components/board/board-table.module.scss";
 
-export default function BoardTable({
+export default async function BoardTable({
     itemsPerPage,
     currentPage,
     totalPost,
@@ -14,16 +12,7 @@ export default function BoardTable({
     currentPage: number;
     totalPost: number;
 }) {
-    const [items, setItems] = useState<boardDataType[]>([]);
-
-    const getBoardData = useCallback(async () => {
-        const boardList = await getBoardList(itemsPerPage, currentPage);
-        setItems(boardList);
-    }, []);
-
-    useEffect(() => {
-        getBoardData();
-    }, []);
+    const items = await getBoardList(itemsPerPage, currentPage);
 
     return (
         <div className={styles["table-container"]}>

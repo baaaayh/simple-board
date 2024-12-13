@@ -1,5 +1,6 @@
 import Header from "@/app/components/layout/header";
 import { auth } from "@/auth";
+import { SessionProps } from "@/app/lib/definitions";
 
 export default async function BoardLayout({
     children,
@@ -11,7 +12,7 @@ export default async function BoardLayout({
     return (
         <main className="main">
             <div className="wrap">
-                <Header userInfo={user} />
+                <Header userInfo={user as SessionProps} />
                 <div className="container">
                     <div className="contents">{children}</div>
                 </div>

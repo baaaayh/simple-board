@@ -1,25 +1,7 @@
-"use client";
-import { useEffect, useState, useCallback } from "react";
 import styles from "@/app/components/board/board-detail.module.scss";
-import { getDetail } from "@/app/lib/actions";
 import { contentType } from "@/app/lib/definitions";
 
-export default function BoardDetail({ id }: { id: string }) {
-    const [content, setContent] = useState<contentType | null>(null);
-
-    const getCotnent = useCallback(async (id: string) => {
-        try {
-            const response = await getDetail(id);
-            setContent(response);
-        } catch (error) {
-            console.log(error);
-        }
-    }, []);
-
-    useEffect(() => {
-        getCotnent(id);
-    }, [id]);
-
+export default function BoardDetail({ content }: { content: contentType }) {
     let formattedDate = "";
     if (content?.date) {
         const date = new Date(Number(content.date));

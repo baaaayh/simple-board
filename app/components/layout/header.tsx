@@ -3,7 +3,7 @@ import { signOut } from "@/auth";
 import { SessionProps } from "@/app/lib/definitions";
 import styles from "@/app/components/layout/header.module.scss";
 
-export default function Header({ userInfo }: SessionProps) {
+export default function Header({ userInfo }: { userInfo: SessionProps }) {
     return (
         <header className={styles["header"]}>
             <div className={styles["header__inner"]}>

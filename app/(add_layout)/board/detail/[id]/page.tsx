@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { Suspense } from "react";
 import BoardDetail from "@/app/components/board/board-detail";
+import { auth } from "@/auth";
+import { getDetail } from "@/app/lib/actions";
+import DeleteButton from "@/app/components/board/delete-button";
 
 export default async function BoardDetailPage({
     params,
@@ -9,14 +11,18 @@ export default async function BoardDetailPage({
     params: { id: string };
     searchParams: { currentPage?: string };
 }) {
-    const { id } = params;
-    const currentPage = Number(searchParams.currentPage) || 1;
+    const { id } = await params;
+    const page = await searchParams;
+    const currentPage = Number(page.currentPage) || 1;
+
+    const info = await auth();
+    const user = info?.user;
+
+    const content = await getDetail(id);
 
     return (
         <>
-            <Suspense fallback={<div>Loading...</div>}>
-                <BoardDetail id={id} />
-            </Suspense>
+            <BoardDetail content={content} />
             <div className="button-wrap">
                 <Link
                     href={`/board/page/${currentPage}`}
@@ -24,12 +30,9 @@ export default async function BoardDetailPage({
                 >
                     <span>LIST</span>
                 </Link>
-                <button
-                    type="button"
-                    className="btn btn-round btn-round--green"
-                >
-                    <span>DELETE</span>
-                </button>
+                {user?.name === content?.writer && (
+                    <DeleteButton id={id} currentPage={currentPage} />
+                )}
             </div>
         </>
     );
