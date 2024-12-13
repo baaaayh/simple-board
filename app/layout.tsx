@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.scss";
+import "@/app/lib/fonts";
 
 export const metadata: Metadata = {
     title: "SIMPLE BOARD",

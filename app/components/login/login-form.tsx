@@ -5,7 +5,7 @@ import { authenticate } from "@/app/lib/actions";
 import styles from "@/app/components/login/login-form.module.scss";
 
 export default function LoginForm() {
-    const [formAction] = useActionState(authenticate, undefined);
+    const [, formAction] = useActionState(authenticate, undefined);
 
     return (
         <div className={styles["login"]}>
