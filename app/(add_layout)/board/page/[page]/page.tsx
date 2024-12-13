@@ -3,10 +3,24 @@ import BoardTable from "@/app/components/board/board-table";
 import Pagination from "@/app/components/pagenation/pagination";
 import { getTotalPost } from "@/app/lib/actions";
 
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ page: string }>;
+}) {
+    const paramPage = await params;
+    const currentPage = paramPage.page;
+
+    return {
+        title: `리스트 ${currentPage}번 페이지`,
+        description: "심플 보드 리스트 페이지",
+    };
+}
+
 export default async function BoardListPage({
     params,
 }: {
-    params: { page: string };
+    params: Promise<{ page: string }>;
 }) {
     const totalPost = await getTotalPost();
     const itemsPerPage = 10;

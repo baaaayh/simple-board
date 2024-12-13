@@ -15,7 +15,7 @@ export const postData = async (url: string, body: EditorContentsType) => {
     }
 };
 
-export const saveImage = async (file: File, callback: Function) => {
+export const saveImage = async (file: File) => {
     try {
         const formData = new FormData();
         formData.append("file", file);
@@ -26,9 +26,14 @@ export const saveImage = async (file: File, callback: Function) => {
             body: formData,
         });
 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         return response;
     } catch (error) {
-        console.log(error);
+        console.error("이미지 업로드 중 오류 발생:", error);
+        throw error;
     }
 };
 
@@ -44,5 +49,6 @@ export const getDetail = async (id: string) => {
         return data;
     } catch (error) {
         console.log(error);
+        throw new Error("Failed to fetch detail");
     }
 };

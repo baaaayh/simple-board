@@ -51,6 +51,7 @@ export async function getDetail(id: string | null) {
 
         return data;
     } catch (error) {
+        console.log(error);
         throw new Error("Failed to fetch detail");
     }
 }
@@ -59,6 +60,7 @@ export async function deletePost(id: string) {
     try {
         await pool.query("DELETE FROM editor_contents WHERE id = $1", [id]);
     } catch (error) {
+        console.log(error);
         throw new Error("Failed to delete post");
     }
 }

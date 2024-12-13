@@ -6,6 +6,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { postData, saveImage } from "@/app/utils/api";
 import { SessionProps, EditorContentsType } from "@/app/lib/definitions";
+import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 
 const ToastEditor = dynamic(
@@ -22,7 +23,7 @@ export default function ToastEditorComponent({
 }) {
     const [postTitle, setPostTitle] = useState("");
     const router = useRouter();
-    const editorRef = useRef<any>(null);
+    const editorRef = useRef<Editor>(null);
 
     const handleSave = useCallback(async () => {
         if (editorRef.current) {
@@ -61,9 +62,9 @@ export default function ToastEditorComponent({
     }, [postTitle]);
 
     const handleImageUpload = useCallback(
-        async (file: File, callback: Function) => {
+        async (file: File, callback: (url: string, name: string) => void) => {
             try {
-                const response = await saveImage(file, callback);
+                const response = await saveImage(file);
                 const data = await response?.json();
                 const imageUrl = data?.filePath;
 

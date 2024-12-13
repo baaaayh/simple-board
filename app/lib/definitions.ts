@@ -1,5 +1,3 @@
-import { Session } from "next-auth";
-
 export interface User {
     id: string;
     username: string;
@@ -10,7 +8,7 @@ export interface SessionProps {
     user: {
         name?: string;
         email?: string;
-        [key: string]: any;
+        [key: string]: string | undefined;
     } | null;
 }
 

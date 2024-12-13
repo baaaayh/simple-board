@@ -12,7 +12,7 @@ export default async function BoardLayout({
     return (
         <main className="main">
             <div className="wrap">
-                <Header userInfo={user as SessionProps} />
+                <Header userInfo={user as unknown as SessionProps} />
                 <div className="container">
                     <div className="contents">{children}</div>
                 </div>

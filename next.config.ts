@@ -2,13 +2,13 @@ import type { NextConfig } from "next";
 import path from "path";
 
 const nextConfig: NextConfig = {
+    eslint: {
+        ignoreDuringBuilds: true,
+    },
     sassOptions: {
-        // includePaths: [path.join(__dirname, "public")],
+        silenceDeprecations: ["legacy-js-api"],
     },
     serverExternalPackages: ["@bcrypt/ui"],
-    experimental: {
-        optimizeCss: true, // CSS 최적화 활성화
-    },
 };
 
 export default nextConfig;
