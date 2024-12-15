@@ -1,10 +1,11 @@
 "use client";
+import React, { useEffect, useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import First from "@/public/images/icon_button_first.svg";
 import Prev from "@/public/images/icon_button_prev.svg";
 import Next from "@/public/images/icon_button_next.svg";
 import Last from "@/public/images/icon_button_last.svg";
-import PagenationButton from "./pagenation-button";
+import PaginationButton from "@/app/components/pagination/pagination-button";
 import styles from "./pagination.module.scss";
 
 export default function Pagination({
@@ -16,12 +17,32 @@ export default function Pagination({
     totalPost: number;
     currentPage: number;
 }) {
+    const [buttonsPerPage, setButtonsPerPage] = useState(10);
     const router = useRouter();
-    const buttonsPerPage = 10;
     const currentGroup = Math.ceil(currentPage / buttonsPerPage);
     const totalButtons = Math.ceil(totalPost / itemsPerPage);
     const startPage = (currentGroup - 1) * buttonsPerPage + 1;
     const endPage = Math.min(startPage + buttonsPerPage - 1, totalButtons);
+
+    const isClient = typeof window === "object";
+
+    const getSize = useCallback(() => {
+        const ww = isClient ? window.innerWidth : undefined;
+        if (ww) {
+            setButtonsPerPage(ww > 768 ? 10 : 5);
+        }
+    }, [isClient]);
+
+    useEffect(() => {
+        getSize();
+        const handleResize = () => {
+            getSize();
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, [getSize]);
 
     const buttonList = Array.from(
         { length: endPage - startPage + 1 },
@@ -88,7 +109,7 @@ export default function Pagination({
                 <ul className={styles.pagination__list}>
                     {buttonList.map((item, index) => {
                         return (
-                            <PagenationButton
+                            <PaginationButton
                                 key={index}
                                 pageIndex={Number(item)}
                                 currentPage={currentPage}

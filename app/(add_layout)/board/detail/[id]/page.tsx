@@ -46,7 +46,18 @@ export default async function BoardDetailPage({
                     <span>LIST</span>
                 </Link>
                 {user?.name === content?.writer && (
-                    <DeleteButton id={id} currentPage={currentPage} />
+                    <>
+                        <Link
+                            href={{
+                                pathname: `/board/modify/${id}`,
+                                query: { currentPage: currentPage },
+                            }}
+                            className="btn btn-round btn-round--grey"
+                        >
+                            <span>MOIDFY</span>
+                        </Link>
+                        <DeleteButton id={id} currentPage={currentPage} />
+                    </>
                 )}
             </div>
         </>

@@ -1,8 +1,8 @@
 "use client";
 import { useRouter } from "next/navigation";
-import styles from "@/app/components/pagenation/pagination.module.scss";
+import styles from "@/app/components/pagination/pagination.module.scss";
 
-export default function PagenationButton({
+export default function PaginationButton({
     pageIndex,
     currentPage,
 }: {

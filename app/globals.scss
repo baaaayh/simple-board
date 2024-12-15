@@ -180,3 +180,9 @@ button {
 .editor .toastui-editor-toolbar-icons {
     background-position-y: -22px;
 }
+
+@media screen and (max-width: 769px) {
+    .page-title {
+        font-size: 24px;
+    }
+}

@@ -63,7 +63,9 @@ export default async function BoardTable({
                                     <Link
                                         href={{
                                             pathname: `/board/detail/${item.id}`,
-                                            query: { currentPage: currentPage },
+                                            query: {
+                                                currentPage: currentPage,
+                                            },
                                         }}
                                     >
                                         {item.title}

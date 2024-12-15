@@ -13,6 +13,7 @@ export interface SessionProps {
 }
 
 export interface EditorContentsType {
+    postId: string | null;
     projectName: string;
     contents: string;
     writer: string | null | undefined;

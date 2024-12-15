@@ -45,3 +45,52 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    .table {
+        display: block;
+        thead {
+            display: none;
+        }
+        tbody {
+            display: block;
+            tr {
+                display: block;
+                padding: 10px 15px;
+                border-bottom: 1px solid #464646;
+                td {
+                    padding: 0;
+                    border: none;
+                    &:first-child {
+                        display: none;
+                    }
+                    &:nth-child(2) {
+                        display: block;
+                        font-size: 16px;
+                        margin-bottom: 6px;
+                    }
+                    &:nth-child(3) {
+                        position: relative;
+                        padding-right: 10px;
+                        font-size: 13px;
+                        &::before {
+                            content: "";
+                            position: absolute;
+                            top: 50%;
+                            right: 0;
+                            display: inline-block;
+                            width: 1px;
+                            height: 10px;
+                            background-color: #464646;
+                            transform: translateY(-50%);
+                        }
+                    }
+                    &:nth-child(4) {
+                        padding: 0 10px;
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+    }
+}

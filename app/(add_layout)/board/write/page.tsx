@@ -10,8 +10,10 @@ export async function generateMetadata() {
 }
 
 export default async function BoardPage({
+    params,
     searchParams,
 }: {
+    params: Promise<string>;
     searchParams: Promise<{ currentPage: string }>;
 }) {
     const userInfo = await auth();
@@ -24,6 +26,8 @@ export default async function BoardPage({
                 <EditorWithNoSSR
                     userInfo={userInfo as unknown as SessionProps}
                     currentPage={currentPage}
+                    editorType={"write"}
+                    postId={null}
                 />
             </div>
         </>

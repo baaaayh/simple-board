@@ -66,3 +66,14 @@
         }
     }
 }
+
+@media screen and (max-width: 768px) {
+    .header {
+        &__username {
+            font-size: 12px;
+            span {
+                display: none;
+            }
+        }
+    }
+}

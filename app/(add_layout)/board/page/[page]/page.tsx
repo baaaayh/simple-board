@@ -1,6 +1,6 @@
 import Link from "next/link";
 import BoardTable from "@/app/components/board/board-table";
-import Pagination from "@/app/components/pagenation/pagination";
+import Pagination from "@/app/components/pagination/pagination";
 import { getTotalPost } from "@/app/lib/actions";
 
 export async function generateMetadata({

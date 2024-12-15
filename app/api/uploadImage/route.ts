@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
     const formData = await req.formData();
     const file = formData.get("file");
     const projectName = formData.get("projectName");
@@ -38,13 +38,10 @@ export async function POST(req: NextRequest) {
             filePath: `${externalServerUrl}${responseBody.filePath}`,
         });
     } catch (error) {
-        return NextResponse.json(
-            {
-                success: false,
-                message:
-                    error instanceof Error ? error.message : "이미지 저장 실패",
-            },
-            { status: 500 }
-        );
+        return NextResponse.json({
+            success: false,
+            message:
+                error instanceof Error ? error.message : "이미지 저장 실패",
+        });
     }
 }

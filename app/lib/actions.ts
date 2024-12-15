@@ -2,6 +2,7 @@
 import pool from "@/app/lib/db";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { EditorContentsType } from "./definitions";
 
 export async function authenticate(
     prevState: string | undefined,
@@ -65,25 +66,38 @@ export async function deletePost(id: string) {
     }
 }
 
-// export async function saveEditorContent(data: EditorContentsType) {
-//     try {
-//         const { contents, title, date, writer } = data;
+export async function postData(url: string, body: EditorContentsType) {
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
 
-//         const id = uuidv4();
-//         const result = await pool.query(
-//             "INSERT INTO editor_contents (id, title, contents, date, writer) VALUES ($1, $2, $3, $4, $5) RETURNING id",
-//             [id, title, contents, date, writer]
-//         );
+        const data = await response.json();
 
-//         return {
-//             success: true,
-//             message: "저장 성공",
-//         };
-//     } catch (error) {
-//         console.log(error);
-//         return {
-//             success: false,
-//             message: "저장 실패",
-//         };
-//     }
-// }
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function modifyData(url: string, body: EditorContentsType) {
+    try {
+        const response = await fetch(url, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+}
